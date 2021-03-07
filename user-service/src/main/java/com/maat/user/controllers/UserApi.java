@@ -1,7 +1,6 @@
-package com.maat.reader.controllers;
+package com.maat.user.controllers;
 
-import com.maat.reader.dto.response.GreetingResponse;
-import lombok.extern.slf4j.Slf4j;
+import com.maat.user.dto.response.GreetingResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

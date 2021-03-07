@@ -1,0 +1,4 @@
+rootProject.name = 'reader'
+include 'users-service'
+include 'discovery-server'
+

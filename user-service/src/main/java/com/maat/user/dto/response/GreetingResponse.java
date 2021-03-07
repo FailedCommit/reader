@@ -1,4 +1,4 @@
-package com.maat.reader.dto.request;
+package com.maat.user.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GreetingRequest {
+public class GreetingResponse {
+    private String greeting;
 }

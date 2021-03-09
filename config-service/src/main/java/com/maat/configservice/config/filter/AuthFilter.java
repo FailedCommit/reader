@@ -1,6 +1,5 @@
 package com.maat.configservice.config.filter;
 
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 
 import javax.servlet.*;
@@ -38,7 +37,7 @@ public class AuthFilter implements Filter {
 
   private String getAuthToken(HttpServletRequest request) {
     String token = request.getHeader(AUTH_TOKEN);
-    if (Strings.isNullOrEmpty(token)) {
+    if (token == null || token.isEmpty()) {
       return request.getParameter(AUTH_TOKEN);
     }
     return token;

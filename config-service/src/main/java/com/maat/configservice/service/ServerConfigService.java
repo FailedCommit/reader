@@ -5,7 +5,7 @@ import com.maat.configservice.beans.ServerConfig;
 import com.maat.configservice.beans.ServerType;
 import com.maat.configservice.repo.HostConfigRepo;
 import com.maat.configservice.repo.ServerConfigRepo;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,10 @@
 package com.maat.configservice.beans;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.common.collect.Maps;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public class CustomProperties {
     corsAllowedDomains;
   }
 
-  private Map<String, List<String>> properties = Maps.newHashMap();
+  private Map<String, List<String>> properties = new HashMap<>();
 
   private static <K, V> V safeGet(Map<K, V> map, K key) {
     return CollectionUtils.isEmpty(map) ? null : map.get(key);

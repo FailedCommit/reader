@@ -1,6 +1,5 @@
 package com.maat.configservice;
 
-import com.google.common.collect.Lists;
 import com.maat.configservice.config.ConfigProperties;
 import com.maat.configservice.config.RestrictedApiConfig;
 import com.maat.configservice.config.UrestrictedApiConfig;
@@ -9,7 +8,8 @@ import com.maat.configservice.repo.HostConfigRepo;
 import com.maat.configservice.repo.HostConfigRepoMongoImpl;
 import com.maat.configservice.repo.ServerConfigRepo;
 import com.maat.configservice.repo.ServerConfigRepoMongoImpl;
-import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,14 +23,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.getenv;
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
 @SpringBootApplication
 @Configuration
@@ -141,14 +141,13 @@ public class ConfigServiceLauncher {
     List<ServerAddress> serverAddresses = createServerAddresses(hostPortsCsv);
     // this code runs only on local machines
     //TODO: uncomment and fix below mongo config
-//    MongoClient mongoClient = new MongoClient(serverAddresses, getMongoOptions());
-//    return new MongoTemplate(mongoClient, dbName);
-    return new MongoTemplate(null, dbName);
+    MongoClient mongoClient = new MongoClient(serverAddresses, getMongoOptions());
+    return new MongoTemplate(mongoClient, dbName);
   }
 
   private List<ServerAddress> createServerAddresses(String hostPortsCsv) {
     List<String> hostPorts = breakString(hostPortsCsv, ",");
-    List<ServerAddress> addresses = Lists.newArrayList();
+    List<ServerAddress> addresses = new ArrayList<>();
     for (String hostPort : hostPorts) {
       List<String> hostDetails = breakString(hostPort, ":");
       if (hostDetails.size() != 2) {
@@ -159,27 +158,24 @@ public class ConfigServiceLauncher {
     return addresses;
   }
 
-//  private static MongoClientSettings getMongoOptions() {
-//    ConfigProperties properties = ConfigProperties.getInstance();
-//    String autoConnectRetry = properties.getProperty("mongo.autoConnectRetry", "true");
-//    String socketKeepAlive = properties.getProperty("mongo.socketKeepAlive", "true");
-//    String connectionsPerHost = properties.getProperty("mongo.connectionsPerHost", "50");
-//    String threadsAllowedToBlockForConnectionMultiplier =
-//        properties.getProperty("mongo.threadsAllowedToBlockForConnectionMultiplier", "300");
-//    MongoClientSettings.Builder builder = MongoClientSettings.builder();
-//    //        builder.autoConnectRetry(BooleanUtils.toBoolean(autoConnectRetry));
-//    builder.connectTimeout((int) TimeUnit.SECONDS.toMillis(60));
-//    //        builder.socketKeepAlive(BooleanUtils.toBoolean(socketKeepAlive));
-//    builder.threadsAllowedToBlockForConnectionMultiplier(
-//        Integer.valueOf(threadsAllowedToBlockForConnectionMultiplier));
-//    builder.connectionsPerHost(Integer.valueOf(connectionsPerHost));
-//    return builder.build();
-//  }
+  private static MongoClientOptions getMongoOptions() {
+    ConfigProperties properties = ConfigProperties.getInstance();
+    String autoConnectRetry = properties.getProperty ( "mongo.autoConnectRetry", "true" );
+    String socketKeepAlive = properties.getProperty ( "mongo.socketKeepAlive", "true" );
+    String connectionsPerHost = properties.getProperty ( "mongo.connectionsPerHost", "50" );
+    String threadsAllowedToBlockForConnectionMultiplier =
+            properties.getProperty ( "mongo.threadsAllowedToBlockForConnectionMultiplier", "300" );
+    MongoClientOptions.Builder builder = new MongoClientOptions.Builder ( );
+    builder.connectTimeout ( (int) TimeUnit.SECONDS.toMillis ( 60 ) );
+    builder.threadsAllowedToBlockForConnectionMultiplier ( Integer.valueOf ( threadsAllowedToBlockForConnectionMultiplier ) );
+    builder.connectionsPerHost ( Integer.valueOf ( connectionsPerHost ) );
+    return builder.build ( );
+  }
 
   private static List<String> breakString(String s, String delimeter) {
-    if (isBlank(s)) return Collections.emptyList();
+    if (s == null || s.isEmpty()) return Collections.emptyList();
     String[] tokens = s.split(delimeter);
-    List<String> tokenList = Lists.newArrayList();
+    List<String> tokenList = new ArrayList<>();
     for (String token : tokens) {
       String cleanToken = token.trim();
       if (isNotBlank(cleanToken)) {

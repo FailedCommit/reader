@@ -1,11 +1,12 @@
 package com.maat.configservice.config;
 
-import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public class ConfigProperties {
   }
 
   private ConfigProperties() {
-    Set<String> localClusters = Sets.newHashSet("local", "mini");
+    Set<String> localClusters = new HashSet<>(Arrays.asList("local", ""));
     String clusterType = getSystemOrEnvProperty("CLUSTER_TYPE");
     if (localClusters.contains(clusterType)) {
       try {

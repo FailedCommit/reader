@@ -24,3 +24,10 @@ Example: http://localhost:8080/USER-SERVICE/user/hi
 
 You will have to provide the all upercase service name, which is not very nice all the time.
 To avoid that we need to implement custom routing logic in our gateway.
+
+### Custom Routing
+
+Depeding on your configuration the url shown above will change.
+In this case it'd be: http://localhost:8080/users/hi
+
+-- the user-service path /user is updated to /users

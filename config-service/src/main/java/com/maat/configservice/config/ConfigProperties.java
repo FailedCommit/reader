@@ -25,7 +25,7 @@ public class ConfigProperties {
     String clusterType = getSystemOrEnvProperty("CLUSTER_TYPE");
     if (localClusters.contains(clusterType)) {
       try {
-        properties = loadPropertiesFromFile("/mnt1/config/tekionGlobal.properties", false);
+        properties = loadPropertiesFromFile("/mnt1/config/maatGlobal.properties", false);
       } catch (IOException e) {
         log.error(e.getMessage());
         throw new RuntimeException(e);

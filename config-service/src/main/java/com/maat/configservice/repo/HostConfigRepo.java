@@ -6,10 +6,10 @@ import java.util.Collection;
 import java.util.List;
 
 public interface HostConfigRepo {
-    public HostConfig findHostConfigById(String hostConfigId);
-    public List<HostConfig> findHostConfigsByIds(Collection<String> ids);
-    public void saveHostConfig(HostConfig hostConfig);
-    public void deletebyId(String id);
+    HostConfig findHostConfigById(String hostConfigId);
+    List<HostConfig> findHostConfigsByIds(Collection<String> ids);
+    void saveHostConfig(HostConfig hostConfig);
+    void deleteById(String id);
     List<HostConfig> findAllHostConfigs();
 
 }

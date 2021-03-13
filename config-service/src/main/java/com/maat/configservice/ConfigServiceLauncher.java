@@ -2,7 +2,7 @@ package com.maat.configservice;
 
 import com.maat.configservice.config.ConfigProperties;
 import com.maat.configservice.config.RestrictedApiConfig;
-import com.maat.configservice.config.UrestrictedApiConfig;
+import com.maat.configservice.config.UnrestrictedApiConfig;
 import com.maat.configservice.config.UserApiConfig;
 import com.maat.configservice.repo.HostConfigRepo;
 import com.maat.configservice.repo.HostConfigRepoMongoImpl;
@@ -39,7 +39,7 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
 @EnableEurekaClient
 public class ConfigServiceLauncher {
 
-  public static final String APP_ROOT = "/config";
+  public static final String APP_ROOT = "/configs";
 
   public static void main(String[] args) {
     SpringApplication.run(ConfigServiceLauncher.class, args);
@@ -64,11 +64,11 @@ public class ConfigServiceLauncher {
     DispatcherServlet dispatcherServlet = new DispatcherServlet();
     AnnotationConfigWebApplicationContext applicationContext =
         new AnnotationConfigWebApplicationContext();
-    applicationContext.register(UrestrictedApiConfig.class);
+    applicationContext.register(UnrestrictedApiConfig.class);
     dispatcherServlet.setApplicationContext(applicationContext);
     ServletRegistrationBean servletRegistrationBean =
         new ServletRegistrationBean<>(dispatcherServlet, APP_ROOT + "/p/*");
-    servletRegistrationBean.setName("HealthApi");
+    servletRegistrationBean.setName("PublicApi");
     servletRegistrationBean.setLoadOnStartup(1);
     return servletRegistrationBean;
   }
@@ -91,11 +91,6 @@ public class ConfigServiceLauncher {
   public String getAppRoot() {
     return APP_ROOT;
   }
-
-  //  @Bean
-  //  public ServletRegistrationBean healthApi() {
-  //    return createDefaultHelthApi(getAppRoot());
-  //  }
 
   @Bean(name = "asyncThreadPool")
   // TODO: Create general thread pool properties. Don't hardcode.
@@ -121,6 +116,7 @@ public class ConfigServiceLauncher {
     if ("mongo".equals(config_type)) {
       return new HostConfigRepoMongoImpl(globalMongoTemplate());
     }
+    // TODO: Use Dynamo here...
     return new HostConfigRepoMongoImpl(globalMongoTemplate());
   }
 
@@ -131,6 +127,7 @@ public class ConfigServiceLauncher {
       return new ServerConfigRepoMongoImpl(globalMongoTemplate());
     }
     // In case, mongo is not the default anymore
+    // TODO: Use Dynamo here...
     return new ServerConfigRepoMongoImpl(globalMongoTemplate());
   }
 
@@ -142,7 +139,7 @@ public class ConfigServiceLauncher {
     String dbName = ConfigProperties.getInstance().getGlobalMongoDBName();
     List<ServerAddress> serverAddresses = createServerAddresses(hostPortsCsv);
     // this code runs only on local machines
-    //TODO: uncomment and fix below mongo config
+    // TODO: uncomment and fix below mongo config
     MongoClient mongoClient = new MongoClient(serverAddresses, getMongoOptions());
     return new MongoTemplate(mongoClient, dbName);
   }
@@ -162,16 +159,15 @@ public class ConfigServiceLauncher {
 
   private static MongoClientOptions getMongoOptions() {
     ConfigProperties properties = ConfigProperties.getInstance();
-    String autoConnectRetry = properties.getProperty ( "mongo.autoConnectRetry", "true" );
-    String socketKeepAlive = properties.getProperty ( "mongo.socketKeepAlive", "true" );
-    String connectionsPerHost = properties.getProperty ( "mongo.connectionsPerHost", "50" );
+    String connectionsPerHost = properties.getProperty("mongo.connectionsPerHost", "50");
     String threadsAllowedToBlockForConnectionMultiplier =
-            properties.getProperty ( "mongo.threadsAllowedToBlockForConnectionMultiplier", "300" );
-    MongoClientOptions.Builder builder = new MongoClientOptions.Builder ( );
-    builder.connectTimeout ( (int) TimeUnit.SECONDS.toMillis ( 60 ) );
-    builder.threadsAllowedToBlockForConnectionMultiplier ( Integer.valueOf ( threadsAllowedToBlockForConnectionMultiplier ) );
-    builder.connectionsPerHost ( Integer.valueOf ( connectionsPerHost ) );
-    return builder.build ( );
+        properties.getProperty("mongo.threadsAllowedToBlockForConnectionMultiplier", "300");
+    MongoClientOptions.Builder builder = new MongoClientOptions.Builder();
+    builder.connectTimeout((int) TimeUnit.SECONDS.toMillis(60));
+    builder.threadsAllowedToBlockForConnectionMultiplier(
+        Integer.valueOf(threadsAllowedToBlockForConnectionMultiplier));
+    builder.connectionsPerHost(Integer.valueOf(connectionsPerHost));
+    return builder.build();
   }
 
   private static List<String> breakString(String s, String delimeter) {

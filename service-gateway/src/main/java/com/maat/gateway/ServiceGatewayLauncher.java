@@ -18,8 +18,10 @@ public class ServiceGatewayLauncher {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("user-service", r -> r.path("/users/*")
+                .route("user-service", r -> r.path("/users/**")
                         .uri("lb://user-service"))
+                .route("config-service", r -> r.path("/configs/**")
+                        .uri("lb://config-service"))
                 .build();
     }
 }

@@ -33,7 +33,7 @@ public class HostConfigRepoMongoImpl implements HostConfigRepo {
     }
 
     @Override
-    public void deletebyId(String id) {
+    public void deleteById(String id) {
         Criteria criteria = Criteria.where("id").is(id);
         mongoTemplate.remove(Query.query(criteria),HostConfig.class);
     }

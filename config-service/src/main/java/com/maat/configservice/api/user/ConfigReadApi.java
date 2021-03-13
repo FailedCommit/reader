@@ -15,7 +15,7 @@ import java.util.List;
 public class ConfigReadApi {
     private final ServerConfigService serverConfigService;
 
-    @GetMapping("/")
+    @GetMapping("/all")
     public List<ServerConfig> fetchAllConfigs() {
         return serverConfigService.findAllConfigurations();
     }

@@ -12,7 +12,8 @@ import java.util.Map;
 @RequestMapping("/health")
 public class HealthApi {
     private static final String startTime = new Date().toString();
-    @GetMapping("/")
+
+    @GetMapping("")
     public Map<String, String> health() {
         Map<String,String> response = new HashMap<>();
         response.put("startTime",startTime);

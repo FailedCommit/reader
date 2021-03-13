@@ -9,6 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackageClasses = {HealthApi.class})
-public class UrestrictedApiConfig implements WebMvcConfigurer { //TODO: Move it to service commons
+public class UnrestrictedApiConfig implements WebMvcConfigurer { //TODO: Move it to service commons
 }
 

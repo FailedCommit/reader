@@ -5,15 +5,17 @@ import com.maat.configservice.beans.HostConfig;
 import com.maat.configservice.beans.ServerHost;
 import com.maat.configservice.beans.ServerType;
 import com.maat.configservice.repo.HostConfigRepo;
-import com.maat.configservice.util.CollectionUtils;
-import com.maat.configservice.util.PreConditions;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
-@Component
+import static com.maat.core.utils.MPreConditions.isTrue;
+import static com.maat.core.utils.MPreConditions.notNull;
+
+@Service
 @AllArgsConstructor
 public class HostConfigurationService {
   private final HostConfigRepo hostConfigRepo;
@@ -42,11 +44,11 @@ public class HostConfigurationService {
   }
 
   private void validateHostConfigForUpdate(String id, HostConfig config) {
-    PreConditions.notNull(id, "id is null");
+    notNull(id, "id is null");
     if (config.getId() == null) {
       config.setId(id);
     } else {
-      PreConditions.isTrue(config.getId().equals(id), "Cannot update the Id of the host");
+      isTrue(config.getId().equals(id), "Cannot update the Id of the host");
     }
     validateHostConfig(config);
     if (config.getId() != null) {
@@ -54,7 +56,7 @@ public class HostConfigurationService {
       if (existing == null) {
         throw new RuntimeException("Config not found");
       }
-      PreConditions.isTrue(
+      isTrue(
           existing.getType().equals(config.getType()),
           "Cannot change the host type. Existing is " + existing.getType());
     }
@@ -75,13 +77,13 @@ public class HostConfigurationService {
       throw new RuntimeException("empty hosts");
     }
     if (config.getType().equals(ServerType.MONGO.name())) {
-      PreConditions.notNull(config.getReplicaSet(), "please tell if this is a replica set");
+      notNull(config.getReplicaSet(), "please tell if this is a replica set");
     }
     for (ServerHost host : config.getHosts()) {
-      PreConditions.notNull(host.getHost(), "host is null");
-      PreConditions.notNull(host.getPort(), "port is null");
+      notNull(host.getHost(), "host is null");
+      notNull(host.getPort(), "port is null");
       if (config.getType() == ServerType.ES.name()) {
-        PreConditions.notNull(host.getProtocol(), "protocol is null");
+        notNull(host.getProtocol(), "protocol is null");
       }
     }
   }

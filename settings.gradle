@@ -4,4 +4,5 @@ include 'discovery-server'
 include 'config-service'
 include 'service-gateway'
 include 'mongosupport'
+include 'sdkcore'
 

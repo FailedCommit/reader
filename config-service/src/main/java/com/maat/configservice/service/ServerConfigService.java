@@ -5,6 +5,8 @@ import com.maat.configservice.beans.ServerConfig;
 import com.maat.configservice.beans.ServerType;
 import com.maat.configservice.repo.HostConfigRepo;
 import com.maat.configservice.repo.ServerConfigRepo;
+import com.maat.configservice.util.ConfigUtils;
+import com.maat.core.utils.MCollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +17,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.maat.configservice.util.CollectionUtils.nullSafeList;
-import static com.maat.configservice.util.ConfigUtils.*;
+import static com.maat.core.utils.MCollectionUtils.nullSafeList;
 
 // TODO: find how to do non consistent read
 // TODO: find how to do consistent and non-consistent write.
@@ -35,7 +36,7 @@ public class ServerConfigService {
     }
 
     public ServerConfig saveConfig(ServerConfig serverConfig, boolean override) {
-        serverConfig.setConfigKey(createKey(serverConfig));
+        serverConfig.setConfigKey(ConfigUtils.createKey(serverConfig));
         validateServerConfig(serverConfig);
         return doCreateServerConfig(serverConfig, override);
     }
@@ -94,22 +95,22 @@ public class ServerConfigService {
             case MONGO:
             case MYSQL:
             case POSTGRES:
-                notBlank(serverConfig.getDbName(), "db name is blank");
+                ConfigUtils.notBlank(serverConfig.getDbName(), "db name is blank");
                 break;
             case REDIS:
-                notBlank(serverConfig.getDbName(), "db name is blank");
-                isTrue(isPositiveInteger(serverConfig.getDbName()), "db name has to be integer");
+                ConfigUtils.notBlank(serverConfig.getDbName(), "db name is blank");
+                ConfigUtils.isTrue(isPositiveInteger(serverConfig.getDbName()), "db name has to be integer");
                 break;
             case ES:
-                notBlank(serverConfig.getReadIndex(), "read index is blank");
-                notBlank(serverConfig.getWriteIndex(), "write index is blank");
+                ConfigUtils.notBlank(serverConfig.getReadIndex(), "read index is blank");
+                ConfigUtils.notBlank(serverConfig.getWriteIndex(), "write index is blank");
                 break;
             case KAFKA:
                 break;
         }
 
         if (type.isHostRequired()) {
-            notBlank(serverConfig.getHostConfigId(), "Host Config Id is required. Please provide.");
+            ConfigUtils.notBlank(serverConfig.getHostConfigId(), "Host Config Id is required. Please provide.");
         }
         if (type != ServerType.RESTRICTED_API_ACCESS && type.isHostRequired()) {
             validateHostConfig(serverConfig);
@@ -126,7 +127,7 @@ public class ServerConfigService {
     }
 
     private void validateHostConfig(ServerConfig serverConfig) {
-        notBlank(serverConfig.getHostConfigId(), "No host config provided");
+        ConfigUtils.notBlank(serverConfig.getHostConfigId(), "No host config provided");
         HostConfig hostConfigById = hostConfigRepo.findHostConfigById(serverConfig.getHostConfigId());
         if (hostConfigById == null) {
             throw new RuntimeException("hostConfig for given hostConfigId does not exist");

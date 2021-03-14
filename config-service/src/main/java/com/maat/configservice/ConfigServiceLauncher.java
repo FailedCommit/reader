@@ -1,13 +1,13 @@
 package com.maat.configservice;
 
 import com.maat.configservice.config.ConfigProperties;
-import com.maat.configservice.config.RestrictedApiConfig;
 import com.maat.configservice.config.UnrestrictedApiConfig;
 import com.maat.configservice.config.UserApiConfig;
 import com.maat.configservice.repo.HostConfigRepo;
 import com.maat.configservice.repo.HostConfigRepoMongoImpl;
 import com.maat.configservice.repo.ServerConfigRepo;
 import com.maat.configservice.repo.ServerConfigRepoMongoImpl;
+import com.maat.configservice.config.RestrictedApiConfig;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;

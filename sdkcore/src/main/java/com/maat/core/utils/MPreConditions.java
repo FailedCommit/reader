@@ -1,13 +1,13 @@
-package com.maat.configservice.util;
+package com.maat.core.utils;
 
 import com.google.common.base.Strings;
+import lombok.experimental.UtilityClass;
 
 import java.util.Collection;
 import java.util.Map;
 
-public class PreConditions {
-  private PreConditions() {}
-
+@UtilityClass
+public class MPreConditions {
   public static <K, V> Map<K, V> isNotEmpty(Map<K, V> map) {
     return isNotEmpty(map, "Map cannot be empty or null");
   }

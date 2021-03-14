@@ -1,8 +1,11 @@
-package com.maat.configservice.util;
+package com.maat.core.utils;
+
+import lombok.experimental.UtilityClass;
 
 import java.util.*;
 
-public class CollectionUtils {
+@UtilityClass
+public class MCollectionUtils {
     public static <T> List<T> nullSafeList(List<T> c){
         return c != null?c:new ArrayList<T>();
     }

@@ -6,6 +6,10 @@ import java.util.*;
 
 @UtilityClass
 public class MCollectionUtils {
+    public static interface Transformer<K, V> {
+        public V transform(K k);
+    }
+
     public static <T> List<T> nullSafeList(List<T> c){
         return c != null?c:new ArrayList<T>();
     }
@@ -22,4 +26,13 @@ public class MCollectionUtils {
         return c != null && c.size() > 0;
     }
 
+    public static <T, U> List<U> transformToList(Collection<T> collection, Transformer<T, U> transformer) {
+        List<U> list = new ArrayList<>();
+        if(isNotEmpty(collection)) {
+            for(T item : collection) {
+                list.add(transformer.transform(item));
+            }
+        }
+        return list;
+    }
 }

@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @Accessors(chain = true)
-public class MongoClientProperties {
+public class MongoClientOptions {
     private String applicationName;
     private Integer minConnectionsPerHost;
     private Integer connectionsPerHost;

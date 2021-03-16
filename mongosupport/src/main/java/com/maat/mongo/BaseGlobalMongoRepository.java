@@ -30,6 +30,6 @@ public class BaseGlobalMongoRepository<T, ID> extends AbstractMongoRepository<T,
 
     @Override
     protected Class<T> getBeanClass() {
-        return null;
+        return beanClass;
     }
 }

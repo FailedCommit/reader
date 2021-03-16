@@ -15,7 +15,6 @@ public abstract class AbstractMongoRepository<T, ID> extends SimpleMongoReposito
     protected abstract Class<T> getBeanClass();
 
 
-
     /**
      * Creates a new {@link SimpleMongoRepository} for the given {@link MongoEntityInformation} and {@link MongoTemplate}.
      *

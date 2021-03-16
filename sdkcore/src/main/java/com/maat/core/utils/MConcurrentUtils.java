@@ -26,7 +26,7 @@ public class MConcurrentUtils {
         creationLocks, map, key, factory, factoryParam, DEFAULT_LOCK_TIMEOUT, SECONDS);
   }
 
-  private static <V, K, P> V getOrCreate(
+  public static <V, K, P> V getOrCreate(
       Striped<Lock> creationLocks,
       ConcurrentMap<K, V> map,
       K key,

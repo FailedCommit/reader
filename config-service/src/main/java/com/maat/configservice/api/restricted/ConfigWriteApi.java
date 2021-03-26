@@ -7,7 +7,6 @@ import com.maat.configservice.beans.HostConfig;
 import com.maat.configservice.beans.ServerConfig;
 import com.maat.configservice.service.HostConfigurationService;
 import com.maat.configservice.service.ServerConfigService;
-import com.maat.configservice.util.PreConditions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,9 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Map;
 
-import static com.maat.configservice.util.CollectionUtils.nullSafeMap;
+import static com.maat.configservice.util.ConfigUtils.isTrue;
+import static com.maat.core.utils.MCollectionUtils.nullSafeMap;
+import static com.maat.core.utils.MPreConditions.notNull;
 import static java.util.Objects.isNull;
 
 @RestController
@@ -33,15 +34,13 @@ public class ConfigWriteApi {
 
   @PutMapping("/host/{id}")
   public HostConfig updateHostConfig(
-          @PathParam("id") String id,
-          @RequestBody HostConfig hostConfig) {
+      @PathParam("id") String id, @RequestBody HostConfig hostConfig) {
     return hostConfigService.updateHostConfig(id, hostConfig);
   }
 
   @PostMapping("/server")
   public ServerConfig createServerConfig(
-          @RequestBody ServerConfig serverConfig,
-          @RequestParam("override") boolean override) {
+      @RequestBody ServerConfig serverConfig, @RequestParam("override") boolean override) {
     return serverConfigService.saveConfig(serverConfig, override);
   }
 
@@ -50,7 +49,7 @@ public class ConfigWriteApi {
       @PathParam("type") String type,
       @RequestBody ServerConfig serverConfig,
       @RequestParam("override") boolean override) {
-    PreConditions.isTrue(
+    isTrue(
         Strings.isNullOrEmpty(serverConfig.getType()) || serverConfig.getType().equals(type),
         "Invalid type info");
     return serverConfigService.saveConfig(serverConfig, override);
@@ -63,7 +62,7 @@ public class ConfigWriteApi {
       @RequestParam CustomProperties customProperties) {
 
     ServerConfig existing = serverConfigService.findConfig(type, module);
-    PreConditions.notNull(existing, "no config found");
+    notNull(existing, "no config found");
 
     if (isNull(existing.getProperties())) {
       existing.setProperties(new CustomProperties());

@@ -19,7 +19,7 @@ public class UserApi {
         return new GreetingResponse("Hello there!! user..");
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity createUser(@RequestBody CreateUserRequest request) {
         User user = userService.createUser(request);
         return ResponseEntity.ok(user);

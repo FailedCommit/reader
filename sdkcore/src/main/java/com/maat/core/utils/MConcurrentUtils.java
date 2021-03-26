@@ -1,7 +1,6 @@
 package com.maat.core.utils;
 
 import com.google.common.util.concurrent.Striped;
-import lombok.NoArgsConstructor;
 import lombok.experimental.UtilityClass;
 
 import java.util.concurrent.ConcurrentMap;
@@ -40,8 +39,8 @@ public class MConcurrentUtils {
       Lock lock = creationLocks.get(key);
       try {
         acquired = tryLockNoException(lock, defaultLockTimeout, timeUnit);
-        if (!acquired) {
-          value = map.get(key);
+        if (acquired) {
+          value = factory.create(key,factoryParam);
           if (nonNull(value)) {
             map.put(key, value);
           }

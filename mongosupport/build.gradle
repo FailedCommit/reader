@@ -58,7 +58,8 @@ uploadArchives {
 }
 
 dependencies {
-    compile project(':sdkcore')
+    implementation project(':sdkcore')
+    implementation project(':config-service')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation('org.springframework.data:spring-data-mongodb')
 

@@ -2,6 +2,7 @@ package com.maat.mongo;
 
 import com.maat.core.utils.MCollectionUtils.Transformer;
 import com.maat.core.utils.MConcurrentUtils.Factory;
+import com.maat.core.utils.MStringUtils;
 import com.maat.mongo.config.DefaultMongoClientOptions;
 import com.maat.mongo.serverconfig.beans.HostConfig;
 import com.maat.mongo.serverconfig.beans.MongoClientOptions;
@@ -15,6 +16,7 @@ import com.mongodb.connection.ClusterSettings;
 import com.mongodb.connection.SslSettings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,7 +27,6 @@ import static com.maat.core.utils.MCollectionUtils.transformToList;
 import static com.maat.core.utils.MConcurrentUtils.getOrCreateDefault;
 import static com.maat.core.utils.MConcurrentUtils.sharedStrippedLocks;
 import static com.mongodb.MongoCredential.createCredential;
-import static java.util.Objects.isNull;
 
 @Component
 @RequiredArgsConstructor
@@ -65,9 +66,11 @@ public class MongoClientFactoryImpl implements MongoClientFactory {
         final String dbName = serverConfig.getDbName();
         final char[] password = hostConfig.getPassword();
 
-        return MongoClientSettings.builder()
-                .credential(createCredential(username, dbName, password))
-                .applyToClusterSettings(cs -> cs.applySettings(getClusterSettings(serverConfig, hostConfig)))
+        val builder =MongoClientSettings.builder();
+        if(MStringUtils.nonBlank(username)){
+                builder.credential(createCredential(username, dbName, password));
+                    }
+              return   builder.applyToClusterSettings(cs -> cs.applySettings(getClusterSettings(serverConfig, hostConfig)))
                 .applyToSslSettings(ss -> ss.applySettings(getSslSettings(hostConfig)))
                 .build();
     }

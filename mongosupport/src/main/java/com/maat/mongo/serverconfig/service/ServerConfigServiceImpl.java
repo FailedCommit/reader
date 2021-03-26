@@ -1,5 +1,6 @@
 package com.maat.mongo.serverconfig.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -10,14 +11,20 @@ import com.maat.mongo.serverconfig.beans.ServerConfig;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.PostConstruct;
+import java.net.URI;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
@@ -28,17 +35,18 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 @Slf4j
 public class ServerConfigServiceImpl implements ServerConfigService {
   private final MaatConfigProperties maatConfigProperties;
-  private final ServerConfigService configService;
-  private LoadingCache<ConfigCacheWrapper, ServerConfig> configCache;
+  private final LoadingCache<ConfigCacheWrapper, ServerConfig> configCache;
   private final ExecutorService executor;
-
+  private final RestTemplate restTemplate;
+private final ObjectMapper mapper;
   public ServerConfigServiceImpl(
       MaatConfigProperties maatConfigProperties,
-      ServerConfigService configService,
       @Qualifier("configExecutor") ExecutorService executor) {
     this.maatConfigProperties = maatConfigProperties;
-    this.configService = configService;
+    this.restTemplate = new RestTemplate();
     this.executor = executor;
+    configCache = createLoadingCache();
+    this.mapper =  new ObjectMapper();
   }
 
   @Data
@@ -51,7 +59,6 @@ public class ServerConfigServiceImpl implements ServerConfigService {
 
   @PostConstruct
   public void init() {
-    configCache = createLoadingCache();
     setConfigClientProperties();
   }
 
@@ -88,7 +95,10 @@ public class ServerConfigServiceImpl implements ServerConfigService {
 
   private ServerConfig fetchServerConfigByKey(ConfigCacheWrapper wrapper) {
     // TODO: Create a ConfigService client and use use that instead.
-    return configService.findServerConfig(wrapper.getType(), wrapper.getModuleName());
+    RequestEntity entity = new RequestEntity(HttpMethod.GET, URI.create("http://localhost:8081/configs/u/MONGO"));
+   val configs= restTemplate.exchange(entity, new ParameterizedTypeReference<List<ServerConfig>>() {
+    }).getBody();
+   return configs.get(0);
   }
 
   @Override

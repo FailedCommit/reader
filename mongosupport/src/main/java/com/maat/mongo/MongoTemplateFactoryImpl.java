@@ -32,7 +32,7 @@ public class MongoTemplateFactoryImpl implements MongoTemplateFactory {
   public MongoTemplate getGlobalMongoForModule(String moduleName) {
     ServerConfig serverConfig =
         serverConfigService.findServerConfig(ServerType.MONGO.name(), moduleName);
-    MPreConditions.isNull(serverConfig, "No Config found for key: " + moduleName);
+    MPreConditions.notNull(serverConfig, "No Config found for key: " + moduleName);
     return getOrCreate(
         sharedStrippedLocks,
         mongoTemplateMap,

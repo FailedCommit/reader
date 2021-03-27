@@ -1,4 +1,4 @@
-package com.maat.mongo.serverconfig.service;
+package com.maat.servicecommons.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;

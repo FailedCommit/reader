@@ -1,4 +1,4 @@
-package com.maat.mongo.serverconfig.service;
+package com.maat.servicecommons.service;
 
 import com.maat.servicecommons.serverconfig.ServerConfig;
 

@@ -2,11 +2,11 @@ package com.maat.configservice.api.restricted;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import com.maat.configservice.beans.CustomProperties;
-import com.maat.configservice.beans.HostConfig;
-import com.maat.configservice.beans.ServerConfig;
 import com.maat.configservice.service.HostConfigurationService;
 import com.maat.configservice.service.ServerConfigService;
+import com.maat.servicecommons.serverconfig.CustomProperties;
+import com.maat.servicecommons.serverconfig.HostConfig;
+import com.maat.servicecommons.serverconfig.ServerConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +40,7 @@ public class ConfigWriteApi {
 
   @PostMapping("/server")
   public ServerConfig createServerConfig(
-      @RequestBody ServerConfig serverConfig, @RequestParam("override") boolean override) {
+          @RequestBody ServerConfig serverConfig, @RequestParam("override") boolean override) {
     return serverConfigService.saveConfig(serverConfig, override);
   }
 

@@ -1,5 +1,6 @@
 package com.maat.mongo;
 
+import com.maat.servicecommons.serverconfig.MaatConfigProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,5 +18,10 @@ public class MongoConfiguration {
     @Bean
     public ExecutorService configExecutor() {
         return Executors.newCachedThreadPool();
+    }
+
+    @Bean
+    public MaatConfigProperties maatConfigProperties() {
+        return new MaatConfigProperties();
     }
 }

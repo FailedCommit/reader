@@ -2,9 +2,9 @@ package com.maat.mongo;
 
 import com.maat.core.utils.MConcurrentUtils.Factory;
 import com.maat.core.utils.MPreConditions;
-import com.maat.mongo.serverconfig.beans.ServerConfig;
-import com.maat.mongo.serverconfig.beans.ServerType;
 import com.maat.mongo.serverconfig.service.ServerConfigService;
+import com.maat.servicecommons.serverconfig.ServerConfig;
+import com.maat.servicecommons.serverconfig.ServerType;
 import com.mongodb.client.MongoClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

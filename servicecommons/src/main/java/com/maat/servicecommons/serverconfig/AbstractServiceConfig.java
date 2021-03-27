@@ -1,11 +1,8 @@
-package com.maat.mongo.serverconfig.beans;
+package com.maat.servicecommons.serverconfig;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-//TODO: copied from config-service. This will be required in all the support libraries.
-// Move to servicecommons library to avoid duplication
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")

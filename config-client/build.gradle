@@ -13,17 +13,19 @@ ext {
     springBootVersion = '2.1.3.RELEASE'
     libVersion = "1.0.0-SNAPSHOT"
     configClientVersion = "1.0.0-SNAPSHOT"
+    serviceCommonsLibVersion = "1.0.0-SNAPSHOT"
+    coreLibVersion = "1.0.0-SNAPSHOT"
 }
 
 repositories {
     mavenCentral()
-    /*maven {
-        url 'my-private-maven-artifactory-url-will-go-here'
+    maven {
+        url 'https://maatcore.jfrog.io/artifactory/maat-libs-snapshot-local/'
         credentials {
-            username = "${mavenUser}"
-            password = "${mavenPassword}"
+            username = "$mavenMaatUser"
+            password = "$mavenMaatPassword"
         }
-    }*/
+    }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -45,8 +47,8 @@ uploadArchives {
     dependsOn(clean)
     repositories {
         mavenDeployer {
-            repository(url: "my-private-maven-artifactory-url-will-go-here") {
-                authentication(userName: "$mavenUser", password: "$mavenPassword")
+            repository(url: "https://maatcore.jfrog.io/artifactory/maat-libs-snapshot-local/") {
+                authentication(userName: "$mavenMaatUser", password: "$mavenMaatPassword")
             }
             pom.version = "${libVersion}"
             pom.artifactId = "configclient"
@@ -56,8 +58,8 @@ uploadArchives {
 }
 
 dependencies {
-    implementation project(':sdkcore')
-    implementation project(':servicecommons')
+    implementation "com.maat.sdk:servicecommons:${serviceCommonsLibVersion}"
+    implementation "com.maat.sdk:core:${coreLibVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-feign'
     compileOnly 'org.projectlombok:lombok:1.18.6'

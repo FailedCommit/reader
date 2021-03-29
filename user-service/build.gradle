@@ -10,14 +10,27 @@ version '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://maatcore.jfrog.io/artifactory/maat-libs-snapshot-local/'
+        credentials {
+            username = "$mavenMaatUser"
+            password = "$mavenMaatPassword"
+        }
+    }
 }
 
 ext {
     springCloudVersion = "Greenwich.SR1"
+    coreLibVersion = "1.0.0-SNAPSHOT"
+    serviceCommonsLibVersion = "1.0.0-SNAPSHOT"
+    mongoLibVersion = "1.0.0-SNAPSHOT"
 }
 
 dependencies {
-    implementation project(':mongosupport')
+//    implementation project(':mongosupport')
+    implementation "com.maat.sdk:core:${coreLibVersion}"
+    implementation "com.maat.sdk:servicecommons:${serviceCommonsLibVersion}"
+    implementation "com.maat.sdk:mongosupport:${mongoLibVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation('org.springframework.data:spring-data-mongodb')
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'

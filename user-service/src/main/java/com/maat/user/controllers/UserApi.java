@@ -3,13 +3,12 @@ package com.maat.user.controllers;
 import com.maat.configservice.client.ConfigServiceClientConfig;
 import com.maat.configservice.client.ConfigServiceClientConfig.ConfigServiceClient;
 import com.maat.servicecommons.serverconfig.ServerConfig;
-import com.maat.user.beans.User;
+import com.maat.user.beans.UserDetail;
 import com.maat.user.dto.request.CreateUserRequest;
 import com.maat.user.dto.response.GreetingResponse;
 import com.maat.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,9 +31,18 @@ public class UserApi {
         return configServiceClient.fetchAllConfigs();
     }
 
-    @PostMapping
-    public ResponseEntity createUser(@RequestBody CreateUserRequest request) {
-        User user = userService.createUser(request);
-        return ResponseEntity.ok(user);
+    @PostMapping()
+    private UserDetail create(@RequestBody CreateUserRequest request) {
+        return userService.createUser(request);
+    }
+
+    @GetMapping("/{userId}")
+    private UserDetail getById(@PathVariable Long userId) {
+        return userService.getById(userId);
+    }
+
+    @GetMapping("/test")
+    private String getById() {
+        return "Authenticated successfully";
     }
 }

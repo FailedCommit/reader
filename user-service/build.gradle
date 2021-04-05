@@ -27,7 +27,7 @@ ext {
 }
 
 dependencies {
-//    implementation project(':mongosupport')
+    implementation project(':config-client')
     implementation "com.maat.sdk:core:${coreLibVersion}"
     implementation "com.maat.sdk:servicecommons:${serviceCommonsLibVersion}"
     implementation "com.maat.sdk:mongosupport:${mongoLibVersion}"

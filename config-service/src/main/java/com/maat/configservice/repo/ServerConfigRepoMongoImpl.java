@@ -1,7 +1,7 @@
 package com.maat.configservice.repo;
 
-import com.maat.configservice.beans.ServerConfig;
 import com.maat.configservice.util.ConfigUtils;
+import com.maat.servicecommons.serverconfig.ServerConfig;
 import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

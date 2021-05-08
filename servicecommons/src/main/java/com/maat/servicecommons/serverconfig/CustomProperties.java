@@ -1,4 +1,4 @@
-package com.maat.configservice.beans;
+package com.maat.servicecommons.serverconfig;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

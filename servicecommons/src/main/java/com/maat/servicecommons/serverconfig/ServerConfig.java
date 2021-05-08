@@ -1,4 +1,4 @@
-package com.maat.mongo.serverconfig.beans;
+package com.maat.servicecommons.serverconfig;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -12,9 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.List;
 import java.util.Map;
 
-
-//TODO: copied from config-service. This will be required in all the support libraries.
-// Move to servicecommons library to avoid duplication
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Document

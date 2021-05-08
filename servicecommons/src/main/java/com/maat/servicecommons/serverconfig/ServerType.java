@@ -1,4 +1,4 @@
-package com.maat.configservice.beans;
+package com.maat.servicecommons.serverconfig;
 
 public enum ServerType {
     MONGO(true),

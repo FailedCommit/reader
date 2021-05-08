@@ -1,6 +1,6 @@
 package com.maat.configservice.repo;
 
-import com.maat.configservice.beans.ServerConfig;
+import com.maat.servicecommons.serverconfig.ServerConfig;
 
 import java.util.List;
 

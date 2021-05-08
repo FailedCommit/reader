@@ -1,9 +1,8 @@
-package com.maat.configservice.beans;
+package com.maat.servicecommons.serverconfig;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -12,13 +11,11 @@ import java.util.Map;
 public class HostConfig {
     private String id;
     private String name;
-    @NotNull
     private String type;
-    @NotNull
     private String clusterName;
     private List<ServerHost>hosts;
     private String userName;
-    private String password;
+    private char[] password;
     private boolean sslEnabled;
     private Boolean replicaSet;                     // mongo replica set
     private String authType;
@@ -28,5 +25,6 @@ public class HostConfig {
     private String kmsRegion;
     private String keyArn;
     private Map<String,List<String>> additional;
-    private MongoClientProperties mongoClientProperties;
+    //TODO: This should be in mongosupport lib
+    private MongoClientOptions mongoClientOptions;
 }

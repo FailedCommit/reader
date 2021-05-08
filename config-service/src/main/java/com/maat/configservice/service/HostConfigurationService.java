@@ -1,12 +1,11 @@
 package com.maat.configservice.service;
 
 import com.google.common.collect.Lists;
-import com.maat.configservice.beans.HostConfig;
-import com.maat.configservice.beans.ServerHost;
-import com.maat.configservice.beans.ServerType;
 import com.maat.configservice.repo.HostConfigRepo;
+import com.maat.servicecommons.serverconfig.HostConfig;
+import com.maat.servicecommons.serverconfig.ServerHost;
+import com.maat.servicecommons.serverconfig.ServerType;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 

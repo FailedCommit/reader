@@ -1,6 +1,6 @@
 package com.maat.configservice.util;
 
-import com.maat.configservice.beans.ServerConfig;
+import com.maat.servicecommons.serverconfig.ServerConfig;
 import org.springframework.util.StringUtils;
 
 //TODO: This will be required in all the support libraries.

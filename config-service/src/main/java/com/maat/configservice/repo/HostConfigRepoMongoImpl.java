@@ -1,6 +1,6 @@
 package com.maat.configservice.repo;
 
-import com.maat.configservice.beans.HostConfig;
+import com.maat.servicecommons.serverconfig.HostConfig;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

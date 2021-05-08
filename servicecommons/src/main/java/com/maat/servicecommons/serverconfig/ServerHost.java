@@ -1,9 +1,7 @@
-package com.maat.mongo.serverconfig.beans;
+package com.maat.servicecommons.serverconfig;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-
-//TODO: copied from config-service. Move to servicecommons library to avoid duplication
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)

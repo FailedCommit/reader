@@ -1,12 +1,11 @@
 package com.maat.configservice.service;
 
-import com.maat.configservice.beans.HostConfig;
-import com.maat.configservice.beans.ServerConfig;
-import com.maat.configservice.beans.ServerType;
 import com.maat.configservice.repo.HostConfigRepo;
 import com.maat.configservice.repo.ServerConfigRepo;
 import com.maat.configservice.util.ConfigUtils;
-import com.maat.core.utils.MCollectionUtils;
+import com.maat.servicecommons.serverconfig.HostConfig;
+import com.maat.servicecommons.serverconfig.ServerConfig;
+import com.maat.servicecommons.serverconfig.ServerType;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +42,8 @@ public class ServerConfigService {
 
     public List<ServerConfig> findConfigListForType(String type) {
         List<ServerConfig> configList = serverConfigRepo.findConfigForType(type);
-        return populateHostConfig(configList);
+//        return populateHostConfig(configList);
+        return configList;
     }
 
     public List<ServerConfig> findConfigListForTypeAndModule(String type, String module) {
@@ -151,7 +151,7 @@ public class ServerConfigService {
         if (hostCache == null) {
             synchronized (this) {
                 if (hostCache == null) {
-                    List<HostConfig> allHostConfigs = hostConfigRepo.findAllHostConfigs();
+                    final List<HostConfig> allHostConfigs = hostConfigRepo.findAllHostConfigs();
                     hostCache = new ConcurrentHashMap<>();
                     for (HostConfig config : nullSafeList(allHostConfigs)) {
                         hostCache.put(config.getId(), config);

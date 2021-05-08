@@ -5,4 +5,7 @@ include 'config-service'
 include 'service-gateway'
 include 'mongosupport'
 include 'sdkcore'
+include 'servicecommons'
+include 'config-client'
+include 'config-client'
 

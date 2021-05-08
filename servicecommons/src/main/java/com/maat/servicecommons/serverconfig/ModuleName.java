@@ -1,4 +1,4 @@
-package com.maat.mongo.serverconfig.beans;
+package com.maat.servicecommons.serverconfig;
 
 public enum ModuleName {
     SERVICE_HOST,

@@ -63,6 +63,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         final UserDetail user = userService.getUser(username);
 
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-        response.addHeader(USER_ID, String.valueOf(user.getId()));
+//        response.addHeader(USER_ID, String.valueOf(user.getId()));
     }
 }

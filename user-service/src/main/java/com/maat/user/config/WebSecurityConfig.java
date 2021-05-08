@@ -1,10 +1,8 @@
 package com.maat.user.config;
 
 import com.maat.user.security.AuthenticationFilter;
-import com.maat.user.security.AuthorizationFilter;
 import com.maat.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static com.maat.user.security.SecurityConstants.LOGIN_END_POINT;
-import static com.maat.user.security.SecurityConstants.SIGN_UP_URL;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -30,14 +27,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL)
-                .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilter(getAuthenticationFilter())
-                .addFilter(new AuthorizationFilter(authenticationManager()));
+                .csrf().disable();
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.POST, SIGN_UP_URL)
+//                .permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilter(getAuthenticationFilter())
+//                .addFilter(new AuthorizationFilter(authenticationManager()));
     }
 
     public AuthenticationFilter getAuthenticationFilter() throws Exception {

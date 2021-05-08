@@ -1,6 +1,9 @@
 package com.maat.user;
 
+import com.maat.mongo.BaseGlobalBaseRepository;
 import com.maat.mongo.MBaseRepository;
+import com.maat.mongo.MongoTemplateFactory;
+import com.maat.user.beans.UserDetail;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -22,5 +25,10 @@ public class UserServiceLauncher {
   @Bean
   public UsersAppContext usersAppContext() {
     return new UsersAppContext();
+  }
+
+  @Bean
+  public MBaseRepository baseRepository(MongoTemplateFactory mongoTemplateFactory) {
+    return new BaseGlobalBaseRepository("READER_DEFAULT", UserDetail.class, mongoTemplateFactory);
   }
 }
